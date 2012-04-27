@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="bns.member">
+  <body>
+    <metal:block fill-slot="top_slot"
+                 tal:define="disable_column_one python:request.set('disable_plone.leftcolumn',1);
+                             disable_column_two python:request.set('disable_plone.rightcolumn',1);" />
+    <metal:cssslot fill-slot="style_slot">
+      <style>
+	a.missing
+	{
+	color: red;
+	}
+.hidden
+{
+display: none;
+}
+      </style>
+    </metal:cssslot>
+    <metal:javascriptslot fill-slot="javascript_head_slot">
+      <script type="text/javascript" src="/++resource++cp.js" ></script>
+    </metal:javascriptslot>
+
+    <div metal:fill-slot="main">
+      <tal:main-macro metal:define-macro="main">
+	<h1 tal:content="string: Control Panel" />
+	<div id="controls-table">
+	  <form>
+	    <select class="tables">
+	      
+	    </select>
+	    <input type="submit" value="change" />
+	  </form>
+	</div>
+
+	<div id="controls-params" class="hidden">
+	  <form>
+	    filter: <input class="search" type="text" value="" /> <br />	    
+	    limit: <input class="limit" type="text" value="20" />
+	    page: <input class="page" type="text" value="1" /> <br />
+	    sort:
+	    <select class="sort">
+	    </select>
+	    reverse: <input class="reverse" type="checkbox" /> <br />
+	    <input type="submit" value="search" />
+	  </form>
+	  
+	  <a href="#" class="controls-previous"><< Previous</a>
+	  <a href="#" class="controls-next">Next >></a>
+
+	</div>
+
+	<div id="control-panel"  class="hidden">
+	  <table id="bns-member-report" class="bns-member-table" style="background: white">
+	    <thead>
+	      <tr class="table-headers">
+	      </tr>
+	    </thead>
+	    <tbody>
+	      
+	    </tbody>	    
+	  </table>
+	</div>
+      </tal:main-macro>
+      </div>
+  </body>
+</html>
