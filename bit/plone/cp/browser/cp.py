@@ -1,9 +1,7 @@
 import json
 
-from zope.interface import implements
 from zope.component import queryAdapter, getAdapters
 
-from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView as FiveView
 
 from bit.plone.cp.interfaces import IControlPanel
@@ -13,7 +11,8 @@ class ControlPanelView(FiveView):
 
     def list_tables(self):
         adapters = {'---': {'title': '---', }, }
-        for name, adapter in [x for  x in getAdapters((self.context, ), IControlPanel)]:
+        for name, adapter in [
+            x for x in getAdapters((self.context, ), IControlPanel)]:
             adapters[name] = {'title': adapter.getTitle()}
         return json.dumps(
             adapters
@@ -63,7 +62,8 @@ class ControlPanelView(FiveView):
             if search:
                 if not search in member\
                         and not search in str(members[member]['Name'])\
-                        and not search in str(members[member]['Organisation__c'])\
+                        and not search\
+                        in str(members[member]['Organisation__c'])\
                         and not search in str(members[member]['UserName__c']):
                     continue
             _members[member] = members[member]
@@ -71,4 +71,3 @@ class ControlPanelView(FiveView):
             i += 1
             c += 1
         return _members
-

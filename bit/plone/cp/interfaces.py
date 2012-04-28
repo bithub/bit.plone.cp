@@ -1,4 +1,4 @@
-from zope.interface import Interface, implements
+from zope.interface import Interface
 
 
 class IControlPanel(Interface):
@@ -8,4 +8,3 @@ class IControlPanel(Interface):
 
     def get_data():
         pass
-    
