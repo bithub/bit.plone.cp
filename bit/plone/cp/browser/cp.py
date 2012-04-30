@@ -29,7 +29,7 @@ class ControlPanel(object):
 class ControlPanelView(FiveView):
 
     def get_tables(self):
-        adapters = {'---': {'title': '---', }, }
+        adapters = {}
         for name, adapter in [
             x for x in getAdapters((self.context, ), IControlPanel)]:
             adapters[name] = {'title': adapter.get_title()}

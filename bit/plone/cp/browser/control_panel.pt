@@ -27,15 +27,17 @@ display: none;
 	<h1 tal:content="string: Control Panel" />
 	<div id="controls-table">
 	  <form>
-	    <select class="tables">
-	      
+	    <select class="tables">	     
 	    </select>
-	    <input type="submit" value="change" />
 	  </form>
 	</div>
 
 	<div id="controls-params" class="hidden">
 	  <form>
+	  <div class="search-submit">
+	    <input type="submit" value="search" />
+	  </div>
+	  <div class="search-params">
 	    filter: <input class="search" type="text" value="" /> <br />	    
 	    limit: <input class="limit" type="text" value="20" />
 	    page: <input class="page" type="text" value="1" /> <br />
@@ -43,17 +45,18 @@ display: none;
 	    <select class="sort">
 	    </select>
 	    reverse: <input class="reverse" type="checkbox" /> <br />
-	    <input type="submit" value="search" />
+	  </div>
 	  </form>
-	  
-	  <a href="#" class="controls-previous"><< Previous</a>
-	  <a href="#" class="controls-next">Next >></a>
+	  <div id="controls-next-previous">
+	    <a href="#" class="controls-previous"><< Previous</a>
+	    <a href="#" class="controls-next">Next >></a>
+	  </div>
 
 	</div>
 
 	<div id="control-panel"  class="hidden">
 	  <form action="http://dev.bswn.org.uk" method="post">
-	    <table id="bns-member-report" class="bns-member-table" style="background: white">
+	    <table id="bns-member-report" class="bns-member-table">
 	      <thead>
 		<tr class="table-headers">
 		</tr>

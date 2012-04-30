@@ -45,7 +45,7 @@ class ControlPanel(object):
                     'title': 'Type',
                     },
                 'delete': {
-                    'type': 'link',
+                    'type': 'form-link',
                     'title': 'Delete',
                     },
                 'description': {

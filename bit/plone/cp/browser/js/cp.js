@@ -10,7 +10,7 @@ $(document).ready(function() {
 	    dataType: 'json',
 	    success: function(data) {
 		var i, item, form, options, option;
-		options = "";
+		options = "<option value='---'>---</option>";
 		index = data['index'];
 		fields = data['fields'];
 		for (option in data) {
@@ -33,7 +33,7 @@ $(document).ready(function() {
 	    success: function(data) {
 		var i, item, form, options;
 		form = $('#controls-params form');
-		options = "";
+		options = ""
 		index = data['index'];
 		fields = data['fields'];
 		for (i = 0; i < data['index'].length; i++) {
@@ -99,8 +99,14 @@ $(document).ready(function() {
 		    items[data[item]['index']] = data[item];
 		}
 		rows = '';
+		css = 'even';
 		for (item in items) {
-		    row = '<tr>';
+		    row = '<tr class="cp-data-row ' + css + '">';
+		    if (css === 'even') {
+			css = 'odd'
+		    } else {
+			css = 'even'
+		    }
 		    cells = '';
 		    for (i = 0; i < index.length; i++) {
 			if (fields[index[i]].type === 'selection') {
@@ -116,14 +122,19 @@ $(document).ready(function() {
 			    link = items[item][index[i]]
 			    href = link[0]
 			    text = link[1]
-			    cells += "<td><a  href='" + href + "'>" + text + "</a></td>"
+			    cells += "<td><a class='link-overlay' href='" + href + "'>" + text + "</a></td>"
+			} else if (fields[index[i]].type === 'form-link') {
+			    link = items[item][index[i]]
+			    href = link[0]
+			    text = link[1]
+			    cells += "<td><a class='form-overlay' href='" + href + "'>" + text + "</a></td>"
 			} else if (fields[index[i]].type === 'iframe') {
 			    cells += "<td><iframe>" + items[item][index[i]] + "</iframe></td>"
 			} else if (fields[index[i]].type === 'image') {
 			    link = items[item][index[i]]
 			    src = link[0]
 			    href = link[1]
-			    cells += "<td><a  href='" + href + "'><img src='" + src + "' /></a></td>"
+			    cells += "<td><a class='image-overlay' href='" + href + "'><img src='" + src + "' /></a></td>"
 			} else if (fields[index[i]].type === 'list') {
 			    list_items = items[item][index[i]]
 			    list = ''
@@ -144,15 +155,13 @@ $(document).ready(function() {
 	});
     }
 
-    var itemOverlay = {
+    var formOverlay = {
 	subtype: 'ajax',
 	noform: 'close',
 	formselector: 'form',
 	filter: '#content>*',
 	config: {
 	    onLoad: function(e) {
-		console.log('loading');
-		console.log(this.getOverlay());
 		kukit.engine.setupEvents(this.getOverlay());
 	    },
 	    onBeforeClose: function(e) {
@@ -162,26 +171,58 @@ $(document).ready(function() {
 	}
     };
 
-    $('.bns-member-report-next').click(function(evt) {
+    var linkOverlay = {
+	subtype: 'ajax',
+	filter: '#content>*',
+	config: {
+	    onLoad: function(e) {
+		kukit.engine.setupEvents(this.getOverlay());
+	    },
+	    onBeforeClose: function(e) {
+		load_table();
+		return true;
+	    }
+	}
+    };
+
+    var imageOverlay = {
+	subtype: 'image',
+    };
+
+
+    $('a.controls-next').click(function(evt) {
 	evt.preventDefault();
-	var form = $('form#bns-member-report-controls');
+	var form = $('form#controls-params');
 	var page = form.find('input.page')[0]
 	var current = parseInt(page.value);
 	$(page).val(current + 1);
 	return load_table();
     })
 
-
-    $('#control-panel td a').live('click mousedown', function(evt) {
+    $('#control-panel td a.image-overlay').live('click mousedown', function(evt) {
 	evt.preventDefault();
-	return $(this).prepOverlay(itemOverlay)
+	return $(this).prepOverlay(imageOverlay)
     })
 
-    $('#controls-table form input:submit').click(function(evt) {
+    $('#control-panel td a.link-overlay').live('click mousedown', function(evt) {
+	evt.preventDefault();
+	return $(this).prepOverlay(linkOverlay)
+    })
+
+    $('#control-panel td a.form-overlay').live('click mousedown', function(evt) {
+	evt.preventDefault();
+	return $(this).prepOverlay(formOverlay)
+    })
+
+    $('#controls-table form select').change(function(evt) {
 	evt.preventDefault();
 	$(this).toggleClass('submitting', false);
-	$('#control-panel').hide('slow');	
-	return load_controls();
+	$('#control-panel').hide('slow');
+	if ($(this).val() === '---') {
+	    return $('#controls-params').hide('slow');
+	} else {
+	    return load_controls();
+	}
     })
 
     $('#controls-params input:submit').click(function(evt) {
