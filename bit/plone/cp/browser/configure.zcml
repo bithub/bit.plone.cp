@@ -15,7 +15,7 @@
       for="*"
       name="cp_tables"
       class=".cp.ControlPanelView"
-      attribute="list_tables"
+      attribute="get_tables"
       permission="cmf.ManagePortal"
       />  
 
@@ -23,7 +23,15 @@
       for="*"
       name="cp_fields"
       class=".cp.ControlPanelView"
-      attribute="list_fields"
+      attribute="get_fields"
+      permission="cmf.ManagePortal"
+      />  
+
+    <browser:page
+      for="*"
+      name="cp_buttons"
+      class=".cp.ControlPanelView"
+      attribute="get_buttons"
       permission="cmf.ManagePortal"
       />  
 

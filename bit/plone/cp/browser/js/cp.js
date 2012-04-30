@@ -1,5 +1,5 @@
 
-$(document).ready(function() { 
+$(document).ready(function() {
     var index;
     var fields;
 
@@ -10,7 +10,7 @@ $(document).ready(function() {
 	    dataType: 'json',
 	    success: function(data) {
 		var i, item, form, options, option;
-		options = "";   
+		options = "";
 		index = data['index'];
 		fields = data['fields'];
 		for (option in data) {
@@ -20,7 +20,7 @@ $(document).ready(function() {
 	    }
 	});
     }
-    
+
     load_tables();
 
     var load_controls = function() {
@@ -32,20 +32,41 @@ $(document).ready(function() {
 	    data: {table: table},
 	    success: function(data) {
 		var i, item, form, options;
-		form = $('#controls-params form');	
-		options = "";   
+		form = $('#controls-params form');
+		options = "";
 		index = data['index'];
 		fields = data['fields'];
 		for (i = 0; i < data['index'].length; i++) {
-		    options += "<option value='" + data['index'][i] + "'>" + data['fields'][data['index'][i]]['title'] + "</option>"
+		    if (fields[index[i]].sort) {
+			options += "<option value='" + data['index'][i] + "'>" + data['fields'][data['index'][i]]['title'] + "</option>"
+		    }
 		}
 		form.find('select.sort').html(options);
-		headers = "<th>Index</th>";
+		headers = '';
 		for (i = 0; i < data['index'].length; i++) {
-		    headers += "<th>" + data['fields'][data['index'][i]]['title'] + "</th>"
+		    if (fields[index[i]].type === 'selection') {
+			headers += "<th><input type='checkbox' class='select-all' /></th>"
+		    } else {
+			headers += "<th>" + data['fields'][data['index'][i]]['title'] + "</th>"
+		    }
 		}
 		$('#control-panel tr.table-headers').html(headers);
 		$('#controls-params').show('slow');
+		$.ajax({
+		    url: "cp_buttons",
+		    dataType: 'json',
+		    data: {table: table},
+		    success: function(buttons_data) {
+			var i, item, form, options, buttons;
+			form = $('#controls-params form');
+			buttons = '<tr><td colspan="' + (data['index'].length + 2)  + '">'
+			for (button in buttons_data) {
+			    buttons += '<input type="submit" name="' + buttons_data[button] + '" value="' + button + '" />'
+			}
+			buttons += "</td></tr>"
+			$('#control-panel table tfoot').html(buttons);
+		    }
+		});
 	    }
 	});
     }
@@ -80,53 +101,67 @@ $(document).ready(function() {
 		rows = '';
 		for (item in items) {
 		    row = '<tr>';
-		    cells = "<td>" + items[item]['index'] + "</td>";
+		    cells = '';
 		    for (i = 0; i < index.length; i++) {
-			if (fields[index[i]].type === 'checkbox') {			    	
+			if (fields[index[i]].type === 'selection') {
+			    cells += "<td><input type='checkbox' name='paths:list' value='" + items[item][index[i]] + "' /></td>"
+			} else if (fields[index[i]].type === 'checkbox') {
 			    if (items[item][index[i]]) {
 				checked = 'checked';
 			    } else {
 				checked = '';
 			    }
-			    cells += "<td><input type='checkbox' " + checked + " /></td>"			    
-			} else if (fields[index[i]].type === 'link') {	
+			    cells += "<td><input type='checkbox' " + checked + " /></td>"
+			} else if (fields[index[i]].type === 'link') {
 			    link = items[item][index[i]]
 			    href = link[0]
 			    text = link[1]
-			    cells += "<td><a  href='" + href + "'>" + text + "</a></td>"			    			    
-			} else if (fields[index[i]].type === 'list') {	
+			    cells += "<td><a  href='" + href + "'>" + text + "</a></td>"
+			} else if (fields[index[i]].type === 'iframe') {
+			    cells += "<td><iframe>" + items[item][index[i]] + "</iframe></td>"
+			} else if (fields[index[i]].type === 'image') {
+			    link = items[item][index[i]]
+			    src = link[0]
+			    href = link[1]
+			    cells += "<td><a  href='" + href + "'><img src='" + src + "' /></a></td>"
+			} else if (fields[index[i]].type === 'list') {
 			    list_items = items[item][index[i]]
 			    list = ''
 			    for (i2 = 0; i2 < list_items.length; i2++) {
 				list += '<li>' + list_items[i2] + '</li>'
 			    }
-			    cells += "<td><ul>" + list + "</ul></td>"		    			    
+			    cells += "<td><ul>" + list + "</ul></td>"
 			} else {
 			    cells += "<td>" + items[item][index[i]] + "</td>"
 			}
 		    }
 		    row += cells + '</tr>';
 		    rows += row;
-		} 
-		$('#control-panel table tbody').html(rows);		
+		}
+		$('#control-panel table tbody').html(rows);
 		$('#control-panel').show('slow');
 	    }
 	});
     }
-    
+
     var itemOverlay = {
 	subtype: 'ajax',
 	noform: 'close',
 	formselector: 'form',
 	filter: '#content>*',
 	config: {
+	    onLoad: function(e) {
+		console.log('loading');
+		console.log(this.getOverlay());
+		kukit.engine.setupEvents(this.getOverlay());
+	    },
 	    onBeforeClose: function(e) {
 		load_table();
 		return true;
 	    }
 	}
     };
-    
+
     $('.bns-member-report-next').click(function(evt) {
 	evt.preventDefault();
 	var form = $('form#bns-member-report-controls');
@@ -141,14 +176,17 @@ $(document).ready(function() {
 	evt.preventDefault();
 	return $(this).prepOverlay(itemOverlay)
     })
-    
+
     $('#controls-table form input:submit').click(function(evt) {
 	evt.preventDefault();
+	$(this).toggleClass('submitting', false);
+	$('#control-panel').hide('slow');	
 	return load_controls();
     })
-  
+
     $('#controls-params input:submit').click(function(evt) {
 	evt.preventDefault();
+	$(this).toggleClass('submitting', false);
 	return load_table();
     })
 
