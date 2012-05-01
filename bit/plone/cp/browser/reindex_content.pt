@@ -15,6 +15,7 @@
 	    <div>
 	      <input type="checkbox"
 	      name="content:list"
+	      checked
 	      tal:attributes="value python:content[0]" />
 	      <span tal:content="python:content[1]" />
 	    </div>
