@@ -1,4 +1,4 @@
-
+from Products.CMFPlone.utils import getToolByName
 
 def _marker():
     pass
@@ -27,51 +27,75 @@ class ControlPanel(object):
                 '%s/delete_confirmation' % result.getURL(), 'delete')
         return data
 
+    def get_data(self):
+        catalog = getToolByName(self.context, 'portal_catalog')
+        results = catalog()
+        content = {}
+        for result in results:
+            item = {}
+            item['result'] = result
+            item['id'] = result.getId
+            item['title'] = result.Title
+            item['icon'] = result.getIcon
+            item['path'] = result.getPath()
+            item['title'] = result.Title
+            item['description'] = result.Description
+            item['description_length'] = len(result.Description or '')
+            item['portal_type'] = result.portal_type
+            content[result.getPath()] = item
+        return content
+
+
     def get_buttons(self):
         return {'change state': 'content_status_history:method',
-                'reindex': 'reindex_content_confirm:method'}
+                'reindex': 'cp_reindex_confirm:method'}
 
     def get_fields(self):
         fields = {}
         fields['fields'] = {
-                'description_length': {
-                    'sort': True,
-                    'title': 'Description length',
+            'description_length': {
+                'sort': True,
+                'title': 'Description length',
+                },
+            'portal_type': {
+                'search': True,
+                'sort': True,
+                'title': 'Type',
+                },
+            'delete': {
+                'type': 'form-link',
+                'title': 'Delete',
+                },
+            'description': {
+                'search': True,
+                'title': 'Description',
+                },
+            'select': {
+                'type': 'selection',
+                'title': 'Select',
+                },
+            'icon': {
+                'type': 'image',
+                'sort': True,
+                'title': 'Icon',
+                },
+            'review_state': {
+                'sort': True,
+                'type': 'form-link',
+                'title': 'State',
+                },
+            'id': {
+                'search': True,
+                'sort': True,
+                'type': 'link',
+                'title': 'Id',
                     },
-                'portal_type': {
-                    'search': True,
-                    'sort': True,
-                    'title': 'Type',
-                    },
-                'delete': {
-                    'type': 'form-link',
-                    'title': 'Delete',
-                    },
-                'description': {
-                    'search': True,
-                    'title': 'Description',
-                    },
-                'select': {
-                    'type': 'selection',
-                    'title': 'Select',
-                    },
-                'icon': {
-                    'type': 'image',
-                    'sort': True,
-                    'title': 'Icon',
-                    },
-                'id': {
-                    'search': True,
-                    'sort': True,
-                    'type': 'link',
-                    'title': 'Id',
-                    },
-                'title': {
-                    'search': True,
-                    'sort': True,
-                    'title': 'Title',
-                    },
-                }
+            'title': {
+                'search': True,
+                'sort': True,
+                'title': 'Title',
+                },
+            }
         fields['index'] = [
                 'select',
                 'id',

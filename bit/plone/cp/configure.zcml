@@ -6,4 +6,11 @@
 
     <include package=".browser" />
 
+    <adapter
+	for="*"
+	factory=".bit_cp.PloneCP"
+	permission="cmf.ManagePortal"
+	name="bit_cp"
+	/>
+
 </configure>

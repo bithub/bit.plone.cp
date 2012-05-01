@@ -1,3 +1,4 @@
+import os
 import json
 
 from zope.component import queryAdapter, getAdapters
@@ -7,23 +8,21 @@ from Products.Five import BrowserView as FiveView
 from bit.plone.cp.interfaces import IControlPanel
 
 
-class ControlPanel(object):
+class ReindexContentView(FiveView):
 
-    def __init__(self, context):
-        self.context = context
+    def get_content(self):
+        return [(x, os.path.basename(x))
+                for x in self.request.get('paths') or []]
 
-    def get_title(self):
-        return '__Control Panel__'
-
-    def get_data(self):
-        return {}
-
-    def display_data(self, data):
-        return data
-
-    def get_buttons(self):
-        return {'change state': 'content_status_history:method',
-                'reindex': 'reindex_content_confirm:method'}
+    def reindex_content(self):
+        content = self.request.get('content')
+        if not content:
+            return
+        for path in content:
+            obj = self.context.restrictedTraverse(path)
+            modified = obj.ModificationDate()
+            obj.reindexObject()
+            obj.setModificationDate(modified)
 
 
 class ControlPanelView(FiveView):

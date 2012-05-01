@@ -30,6 +30,7 @@ display: none;
 	    <select class="tables">	     
 	    </select>
 	  </form>
+	  <div class="status-message"></div>
 	</div>
 
 	<div id="controls-params" class="hidden">

@@ -17,6 +17,7 @@ $(document).ready(function() {
 		    options += "<option value='" + option + "'>" + data[option]['title'] + "</option>"
 		}
 		$('#controls-table form select.tables').html(options);
+		$('#controls-table form select.tables').focus();
 	    }
 	});
     }
@@ -52,6 +53,7 @@ $(document).ready(function() {
 		}
 		$('#control-panel tr.table-headers').html(headers);
 		$('#controls-params').show('slow');
+		$('#controls-params .search-params .search').focus();
 		$.ajax({
 		    url: "cp_buttons",
 		    dataType: 'json',
@@ -71,6 +73,10 @@ $(document).ready(function() {
 	});
     }
 
+    var status_message = function(message) {
+	$('#controls-table .status-message').html(message);
+    }
+
     var load_table = function() {
 	var table, form, limit, search, page, sort, reverse;
 	table = $('#controls-table form select.tables option:selected').val();
@@ -80,6 +86,7 @@ $(document).ready(function() {
 	page = form.find('input.page')[0].value;
 	sort = form.find('select.sort option:selected')[0].value;
 	reverse = (form.find('input.reverse')[0].checked) ? 1 : 0;
+	status_message('loading data....')
 	$.ajax({
 	    url: "cp_data",
 	    dataType: 'json',
@@ -151,6 +158,7 @@ $(document).ready(function() {
 		}
 		$('#control-panel table tbody').html(rows);
 		$('#control-panel').show('slow');
+		status_message('')
 	    }
 	});
     }
@@ -160,9 +168,16 @@ $(document).ready(function() {
 	noform: 'close',
 	formselector: 'form',
 	filter: '#content>*',
+	closeOnClick: false,
+	afterpost: function(data, parent) {	    
+	    parent.overlay().close();
+	},
 	config: {
 	    onLoad: function(e) {
-		kukit.engine.setupEvents(this.getOverlay());
+		if (kukit) {
+		    kukit.engine.setupEvents(this.getOverlay());
+		}
+		return true;
 	    },
 	    onBeforeClose: function(e) {
 		load_table();
@@ -174,9 +189,13 @@ $(document).ready(function() {
     var linkOverlay = {
 	subtype: 'ajax',
 	filter: '#content>*',
+	closeOnClick: false,
 	config: {
 	    onLoad: function(e) {
-		kukit.engine.setupEvents(this.getOverlay());
+		if (kukit) {
+		    kukit.engine.setupEvents(this.getOverlay());
+		}
+		return true;
 	    },
 	    onBeforeClose: function(e) {
 		load_table();
