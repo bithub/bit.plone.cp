@@ -117,7 +117,7 @@ $(document).ready(function() {
 		    cells = '';
 		    for (i = 0; i < index.length; i++) {
 			if (fields[index[i]].type === 'selection') {
-			    cells += "<td><input type='checkbox' name='paths:list' value='" + items[item][index[i]] + "' /></td>"
+			    cells += "<td><input type='checkbox' class='selector' name='paths:list' value='" + items[item][index[i]] + "' /></td>"
 			} else if (fields[index[i]].type === 'checkbox') {
 			    if (items[item][index[i]]) {
 				checked = 'checked';
@@ -216,6 +216,19 @@ $(document).ready(function() {
 	var current = parseInt(page.value);
 	$(page).val(current + 1);
 	return load_table();
+    })
+
+    $('#control-panel input.select-all').live('click mousedown', function(evt) {
+	if ($(this).is(':checked')) {
+	    $('#control-panel input.selector').each(function(){
+		console.log('here');
+		this.checked = true;
+	    });
+	} else {
+	    $('#control-panel input.selector').each(function(){
+		this.checked = false;
+	    });
+	}
     })
 
     $('#control-panel td a.image-overlay').live('click mousedown', function(evt) {
