@@ -1,0 +1,145 @@
+
+
+a.missing
+{
+  color: red;
+  }
+
+.hidden
+{
+  display: none;
+  }
+
+
+#control-panel table
+{ 
+  background: #ddd;
+ }
+
+#control-panel tr.table-headers
+{ 
+  background: #ccc;
+  }
+#control-panel tr.table-headers th
+{ 
+  border-bottom: solid #232323 1px;
+  border-top: solid #232323 1px;
+ }
+
+#control-panel tr.cp-data-row.odd
+{ 
+  background: #efefef;
+ }
+
+#control-panel tr.cp-data-row.even
+{ 
+  background: #ececec;
+ }
+
+#control-panel td,
+#control-panel th
+{ 
+  padding: 3px;
+  font-size: .9em;
+  }
+
+#control-panel tfoot td
+{ 
+  border-top: solid #232323 1px; 
+ }
+
+#control-panel tfoot td input
+{ 
+  margin: .3em .7em;
+ }
+
+#controls-table
+{ 
+  padding: 3px 7px;
+  background: #eee;
+  border-bottom: solid #232323 1px;   
+  height: 1.7em;
+}
+
+#controls-table form 
+{ 
+  float:left;
+  background: purple
+ }
+
+#controls-table form option, 
+#controls-table form select
+{ 
+  min-width: 10em;
+ }
+
+#controls-table .status-message
+{ 
+  float:left;
+  font-style: italic;
+  color: red;
+  font-size: 1.2em;
+  padding-left: .3em;
+ }
+
+#controls-params 
+{ 
+  background: #eee;
+  font-size: 1.3em;
+ }
+
+#controls-params .search-submit
+{ 
+  float: left;
+  width: 150px;
+  text-align: center;
+  height: 7em;
+ }
+
+#controls-params .search-submit input
+{ 
+  position: relative;
+  top: 30%;
+  padding: .7em;
+ }
+
+
+#controls-params .search-params
+{ 
+  float: left;
+  width: 760px;
+  height: 7em;
+ }
+
+#controls-params .search-params input
+{ 
+  margin: .3em .1em;
+  }
+
+#controls-params .search-params input.limit
+{ 
+  width: 4em;
+  }
+
+#controls-params .search-params input.page
+{ 
+  width: 4em;
+  }
+
+
+#controls-next-previous
+{ 
+  clear: both;
+  border-top: solid #232323 1px;
+  font-size: .8em;
+ }
+
+#controls-params input,
+#controls-params select,
+#controls-table input,
+#controls-table select,
+#control-panel input,
+#control-panel select
+{ 
+  background: #ddd;
+ }

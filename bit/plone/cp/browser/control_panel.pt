@@ -7,16 +7,7 @@
                  tal:define="disable_column_one python:request.set('disable_plone.leftcolumn',1);
                              disable_column_two python:request.set('disable_plone.rightcolumn',1);" />
     <metal:cssslot fill-slot="style_slot">
-      <style>
-	a.missing
-	{
-	color: red;
-	}
-.hidden
-{
-display: none;
-}
-      </style>
+    <style type="text/css" media="screen">@import url(/++resource++cp.css);</style>
     </metal:cssslot>
     <metal:javascriptslot fill-slot="javascript_head_slot">
       <script type="text/javascript" src="/++resource++cp.js" ></script>

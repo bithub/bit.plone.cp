@@ -65,4 +65,10 @@
 	permission="cmf.ManagePortal"
 	/>  
 
+    <browser:resource
+	name="cp.css"
+	file="css/cp.css"
+	permission="cmf.ManagePortal"
+	/>  
+
 </configure>

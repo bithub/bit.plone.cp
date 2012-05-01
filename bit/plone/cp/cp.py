@@ -1,5 +1,6 @@
 from Products.CMFPlone.utils import getToolByName
 
+
 def _marker():
     pass
 
@@ -11,9 +12,6 @@ class ControlPanel(object):
 
     def get_title(self):
         return '__Control Panel__'
-
-    def get_data(self):
-        return {}
 
     def display_data(self, data):
         for res in data:
@@ -43,7 +41,6 @@ class ControlPanel(object):
             item['url'] = result.getURL()
             content[result.getPath()] = item
         return content
-
 
     def get_buttons(self):
         return {'change state': 'content_status_history:method',
