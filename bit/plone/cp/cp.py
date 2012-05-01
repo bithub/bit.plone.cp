@@ -17,14 +17,13 @@ class ControlPanel(object):
 
     def display_data(self, data):
         for res in data:
-            result = data[res]['result']
-            data[res]['icon'] = (result.getIcon, result.getIcon)
+            data[res]['icon'] = (data[res]['icon'], data[res]['icon'])
             data[res]['id'] = (
-                '%s/view' % result.getURL(),
-                '%s: %s' % (result.portal_type, result.getId))
-            data[res]['select'] = result.getPath()
+                '%s/view' % data[res]['url'],
+                '%s: %s' % (data[res]['portal_type'], data[res]['id']))
+            data[res]['select'] = data[res]['path']
             data[res]['delete'] = (
-                '%s/delete_confirmation' % result.getURL(), 'delete')
+                '%s/delete_confirmation' % data[res]['url'], 'delete')
         return data
 
     def get_data(self):
@@ -41,6 +40,7 @@ class ControlPanel(object):
             item['description'] = result.Description
             item['description_length'] = len(result.Description or '')
             item['portal_type'] = result.portal_type
+            item['url'] = result.getURL()
             content[result.getPath()] = item
         return content
 
