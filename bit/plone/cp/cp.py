@@ -33,7 +33,6 @@ class ControlPanel(object):
         content = {}
         for result in results:
             item = {}
-            item['result'] = result
             item['id'] = result.getId
             item['title'] = result.Title
             item['icon'] = result.getIcon
