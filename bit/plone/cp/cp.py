@@ -22,7 +22,7 @@ class ControlPanel(object):
             data[res]['id'] = (
                 '%s/view' % result.getURL(),
                 '%s: %s' % (result.portal_type, result.getId))
-            data[res]['description'] = result.Description
+            data[res]['description'] = result.Description()
             data[res]['select'] = result.getPath()
             data[res]['delete'] = (
                 '%s/delete_confirmation' % result.getURL(), 'delete')
