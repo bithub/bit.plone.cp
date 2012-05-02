@@ -174,9 +174,14 @@ $(document).ready(function() {
 	},
 	config: {
 	    onLoad: function(e) {
-		if (kukit) {
-		    kukit.engine.setupEvents(this.getOverlay());
-		}
+		if (kukit) {		
+                    var initfunc = kukit && kukit.actionsGlobalRegistry.get("init-tinymce");
+                    if (initfunc && $('.mce_editable')) {
+			$('#form .mce_editable').each(function(){
+			    initfunc({node:{id:$(this).attr('id')}});
+			});
+		    }
+                }
 		return true;
 	    },
 	    onBeforeClose: function(e) {
@@ -192,9 +197,14 @@ $(document).ready(function() {
 	closeOnClick: false,
 	config: {
 	    onLoad: function(e) {
-		if (kukit) {
-		    kukit.engine.setupEvents(this.getOverlay());
-		}
+		if (kukit) {		
+                    var initfunc = kukit && kukit.actionsGlobalRegistry.get("init-tinymce");
+                    if (initfunc && $('.mce_editable')) {
+			$('#form .mce_editable').each(function(){
+			    initfunc({node:{id:$(this).attr('id')}});
+			});
+		    }
+                }
 		return true;
 	    },
 	    onBeforeClose: function(e) {
