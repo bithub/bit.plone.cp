@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="bns.member">
+
+    <include package=".browser" />
+
+    <adapter
+	for="*"
+	factory=".bit_cp.PloneCP"
+	permission="cmf.ManagePortal"
+	name="bit_cp"
+	/>
+
+</configure>

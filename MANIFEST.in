@@ -1,0 +1,2 @@
+recursive-include bit *
+global-exclude *pyc

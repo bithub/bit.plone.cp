@@ -1,0 +1,67 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="bns.member">
+  <body>
+    <metal:block fill-slot="top_slot"
+                 tal:define="disable_column_one python:request.set('disable_plone.leftcolumn',1);
+                             disable_column_two python:request.set('disable_plone.rightcolumn',1);" />
+    <metal:cssslot fill-slot="style_slot">
+    <style type="text/css" media="screen">@import url(/++resource++cp.css);</style>
+    </metal:cssslot>
+
+    <metal:javascriptslot fill-slot="javascript_head_slot">
+      <script type="text/javascript" src="/++resource++cp.js" ></script>
+    </metal:javascriptslot>
+
+    <div metal:fill-slot="main">
+      <tal:main-macro metal:define-macro="main">
+	<h1 tal:content="string: Content Panel" />
+	<div id="controls-table">
+	  <form>
+	    <select class="tables">	     
+	    </select>
+	  </form>
+	  <div class="status-message"></div>
+	</div>
+
+	<div id="controls-params" class="hidden">
+	  <form>
+	  <div class="search-submit">
+	    <input type="submit" value="search" />
+	  </div>
+	  <div class="search-params">
+	    filter: <input class="search" type="text" value="" /> <br />	    
+	    limit: <input class="limit" type="text" value="20" />
+	    page: <input class="page" type="text" value="1" /> <br />
+	    sort:
+	    <select class="sort">
+	    </select>
+	    reverse: <input class="reverse" type="checkbox" /> <br />
+	  </div>
+	  </form>
+	  <div id="controls-next-previous">
+	    <a href="#" class="controls-previous"><< Previous</a>
+	    <a href="#" class="controls-next">Next >></a>
+	  </div>
+
+	</div>
+
+	<div id="control-panel"  class="hidden">
+	  <form action="http://dev.bswn.org.uk" method="post">
+	    <table id="bns-member-report" class="bns-member-table">
+	      <thead>
+		<tr class="table-headers">
+		</tr>
+	      </thead>
+	      <tbody>	      
+	      </tbody>
+	      <tfoot>
+	      </tfoot>
+	    </table>
+	  </form>
+	</div>
+      </tal:main-macro>
+      </div>
+  </body>
+</html>

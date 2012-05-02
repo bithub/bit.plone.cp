@@ -1,0 +1,74 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="bns.member">
+
+    <browser:page
+      for="*"
+      name="cp"
+      class=".cp.ControlPanelView"
+      template="control_panel.pt"
+      permission="cmf.ManagePortal"
+      />
+
+    <browser:page
+      for="*"
+      name="cp_tables"
+      class=".cp.ControlPanelView"
+      attribute="get_tables"
+      permission="cmf.ManagePortal"
+      />  
+
+    <browser:page
+      for="*"
+      name="cp_fields"
+      class=".cp.ControlPanelView"
+      attribute="get_fields"
+      permission="cmf.ManagePortal"
+      />  
+
+    <browser:page
+      for="*"
+      name="cp_buttons"
+      class=".cp.ControlPanelView"
+      attribute="get_buttons"
+      permission="cmf.ManagePortal"
+      />  
+
+    <browser:page
+      for="*"
+      name="cp_data"
+      class=".cp.ControlPanelView"
+      attribute="get_data"
+      permission="cmf.ManagePortal"
+      />  
+
+    <browser:page
+      for="*"
+      name="cp_reindex_confirm"
+      class=".cp.ReindexContentView"
+      template="./reindex_content.pt"
+      permission="cmf.ManagePortal"
+      />  
+
+    <browser:page
+      for="*"
+      name="cp_reindex"
+      class=".cp.ReindexContentView"
+      attribute="reindex_content"
+      permission="cmf.ManagePortal"
+      />  
+
+    <browser:resource
+	name="cp.js"
+	file="js/cp.js"
+	permission="cmf.ManagePortal"
+	/>  
+
+    <browser:resource
+	name="cp.css"
+	file="css/cp.css"
+	permission="cmf.ManagePortal"
+	/>  
+
+</configure>
