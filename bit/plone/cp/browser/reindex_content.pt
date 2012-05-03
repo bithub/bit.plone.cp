@@ -10,7 +10,7 @@
     <div metal:fill-slot="main">
       <tal:main-macro metal:define-macro="main">
 	<h1 tal:content="string: Reindex content" />
-	<form action="cp_reindex">
+	<form action="cp_reindex" method="POST">
 	  <tal:loop repeat="content view/get_content">
 	    <div>
 	      <input type="checkbox"

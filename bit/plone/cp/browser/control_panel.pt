@@ -48,7 +48,7 @@
 	</div>
 
 	<div id="control-panel"  class="hidden">
-	  <form action="" method="post">
+	  <form action="/" method="post">
 	    <table id="cp-table" class="">
 	      <thead>
 		<tr class="table-headers">
